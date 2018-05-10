@@ -37,10 +37,11 @@ var schemaObj;
 for(var x = 0; x<values; x++) {
     
     //En base a los valores del ifc se añadirian al esquema
-    avroSchema.id = x+"";
+    avroSchema.id = x;
     avroSchema.timestamp = Date.now();
     
     producer.on('ready', function() {
+        
             var messageBuffer = type.toBuffer({
                 id: avroSchema.id,
                 timestamp: avroSchema.timestamp
