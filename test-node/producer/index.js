@@ -31,10 +31,19 @@ client.on('error', function() {
 
 var producer = new HighLevelProducer(client);
 
+var values = 10;
+var valuesArr = [];
+var schemaObj;
+for(var x = 0; x<values; x++) {
+    schemaObj = new avroSchema();
+    schemaObj.id = x+"";
+    schemaObj.timestamp = Date.now();
+    valuesArr.push(schemaObj);
+}
+
 producer.on('ready', function() {
     var messageBuffer = type.toBuffer({
-        id: '123-456-789',
-        timestamp: Date.now()
+        valuesArr
     });
 
     var payload =  [{

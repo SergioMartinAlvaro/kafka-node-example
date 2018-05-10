@@ -10,6 +10,7 @@ var typeDescription = {
         type: 'double'
     }]
 };
+
 var avro = require('avsc');
 var type = avro.parse(typeDescription);
 
