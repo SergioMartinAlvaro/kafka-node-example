@@ -35,9 +35,8 @@ var values = 10;
 var valuesArr = [];
 var schemaObj;
 for(var x = 0; x<values; x++) {
-    schemaObj = new avroSchema();
-    schemaObj.id = x+"";
-    schemaObj.timestamp = Date.now();
+    avroSchema.id = x+"";
+    avroSchema.timestamp = Date.now();
     valuesArr.push(schemaObj);
 }
 
