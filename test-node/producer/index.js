@@ -41,8 +41,10 @@ for(var x = 0; x<values; x++) {
 }
 
 producer.on('ready', function() {
+    console.log(valuesArr);
     var messageBuffer = type.toBuffer({
-        valuesArr
+        id: "123",
+        timestamp: Date.now()
     });
 
     var payload =  [{
