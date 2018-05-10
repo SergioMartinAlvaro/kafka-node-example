@@ -1,3 +1,5 @@
+var Test = require('../models/MyAwesomeType');
+
 "use strict"
 var typeDescription = {
     name: 'MyAwesomeType',
@@ -35,8 +37,10 @@ var consumer = new HighLevelConsumer(client, topics, options);
 consumer.on('message', function(message) {
     var buf = new Buffer(message.value, 'binary');
     var decodedMessage = type.fromBuffer(buf.slice(0));
-
-	typeDescription.save((err, testStored) => {
+    var test = new Test();
+    test.id = decodedMessage.id;
+    test.timestamp = decodedMessage.timestamp;
+	test.save((err, testStored) => {
 		if(err) {
 			res.status(500).send({message: "Error saving test data."});
 		} else {
