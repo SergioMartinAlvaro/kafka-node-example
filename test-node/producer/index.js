@@ -62,6 +62,7 @@ producer.on('ready', function() {
            }
         }); 
     }
+    
 
 });
 
