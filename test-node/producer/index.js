@@ -34,11 +34,9 @@ var producer = new HighLevelProducer(client);
 var values = 10;
 var valuesArr = [];
 var schemaObj;
-for(var x = 0; x<values; x++) {
-    
 
-    
     producer.on('ready', function() {
+        for(var x = 0; x<values; x++) {
             //En base a los valores del ifc se añadirian al esquema
             avroSchema.id = x+"";
             avroSchema.timestamp = Date.now();
@@ -61,8 +59,9 @@ for(var x = 0; x<values; x++) {
                    console.log('result: ', result);
                }
             });     
+        }
     });
-}
+
 
 
 
