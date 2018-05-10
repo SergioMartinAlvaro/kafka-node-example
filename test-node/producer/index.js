@@ -37,30 +37,32 @@ var schemaObj;
 for(var x = 0; x<values; x++) {
     avroSchema.id = x+"";
     avroSchema.timestamp = Date.now();
-    valuesArr.push(schemaObj);
+    valuesArr.push(avroSchema);
 }
 
 producer.on('ready', function() {
-    console.log(valuesArr);
-    var messageBuffer = type.toBuffer({
-        id: "123",
-        timestamp: Date.now()
-    });
+    for(var x = 0; x <= valuesArr.length; x++) {
+        var messageBuffer = type.toBuffer({
+            id: valuesArr[x].id,
+            timestamp: valuesArr[x].timestamp
+        });
 
-    var payload =  [{
-     topic: 'mongo-kafka',
-     messages: messageBuffer,
-     attributes: 1
-    }];
-    
-    producer.send(payload, function(error, result){
-       if(error) {
-           console.error(error);
-       } else {
-           var formattedResult = result[0];
-           console.log('result: ', result);
-       }
-    });
+        var payload =  [{
+         topic: 'mongo-kafka',
+         messages: messageBuffer,
+         attributes: 1
+        }];
+
+        producer.send(payload, function(error, result){
+           if(error) {
+               console.error(error);
+           } else {
+               var formattedResult = result[0];
+               console.log('result: ', result);
+           }
+        }); 
+    }
+
 });
 
 producer.on('error', function() {
