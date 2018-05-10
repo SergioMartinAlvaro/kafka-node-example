@@ -35,6 +35,18 @@ var consumer = new HighLevelConsumer(client, topics, options);
 consumer.on('message', function(message) {
     var buf = new Buffer(message.value, 'binary');
     var decodedMessage = type.fromBuffer(buf.slice(0));
+
+	typeDescription.save((err, testStored) => {
+		if(err) {
+			res.status(500).send({message: "Error saving test data."});
+		} else {
+			if(!artistStored) {
+				res.status(404).send({message: "Test doesnt saved."});
+			} else {
+				res.status(200).send({testStored: test});
+			}
+		}
+	});
     console.log(decodedMessage);
 });
 
