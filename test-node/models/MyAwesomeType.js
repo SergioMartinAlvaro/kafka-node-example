@@ -5,7 +5,7 @@ var Schema = mongoose.Schema;
 
 var TestSchema = Schema({
 	id: String,
-	timestamp: double
+	timestamp: Date
 });
 
 module.exports = mongoose.model('Test', TestSchema);
