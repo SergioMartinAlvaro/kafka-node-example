@@ -31,7 +31,7 @@ client.on('error', function() {
 
 var producer = new HighLevelProducer(client);
 
-var values = 10;
+var values = 10000;
 var valuesArr = [];
 var schemaObj;
 

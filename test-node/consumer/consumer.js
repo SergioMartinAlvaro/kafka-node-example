@@ -1,6 +1,9 @@
-var Test = require('../models/MyAwesomeType');
-
 "use strict"
+
+var Test = require('../models/MyAwesomeType');
+var mongoose = require('mongoose');
+require('events').EventEmitter.prototype._maxListeners = 0;
+
 var typeDescription = {
     name: 'MyAwesomeType',
     type: 'record',
@@ -27,7 +30,7 @@ var topics = [{
 
 var options = {
     autoCommit: true,
-    fetchMaxWaitMs: 1000,
+    fetchMaxWaitMs: 10000,
     fetchMaxBytes: 1024 * 1024,
     encoding: 'buffer',
     fromOffset: 'earliest'
@@ -40,18 +43,20 @@ consumer.on('message', function(message) {
     var test = new Test();
     test.id = decodedMessage.id;
     test.timestamp = decodedMessage.timestamp;
-	test.save((err, testStored) => {
-		if(err) {
-			console.log("Error al guardar, error en el servidor.");
+    mongoose.connect('mongodb://localhost:27017/mongotest', { useMongoClient: true });
+    var db = mongoose.connection;
+    //db.setMaxListeners(1000);
+    db.once('open', function() {
+        test.save((err, testStored) => {
+        	if(!testStored) {
+			console.log("Error al guardar los datos");
 		} else {
-			if(!testStored) {
-				console.log("Error al guardar.");
-			} else {
-				console.log("Se ha guardado: " + testStored);
-			}
+			console.log("Datos guardados satisfactoriamente");
 		}
 	});
-    //console.log(decodedMessage);
+
+    });
+    mongoose.connection.close();
 });
 
 consumer.on('error', function(err){
