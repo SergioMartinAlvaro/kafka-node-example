@@ -42,16 +42,16 @@ consumer.on('message', function(message) {
     test.timestamp = decodedMessage.timestamp;
 	test.save((err, testStored) => {
 		if(err) {
-			res.status(500).send({message: "Error saving test data."});
+			console.log("Error al guardar, error en el servidor.");
 		} else {
-			if(!artistStored) {
-				res.status(404).send({message: "Test doesnt saved."});
+			if(!testStored) {
+				console.log("Error al guardar.");
 			} else {
-				res.status(200).send({testStored: test});
+				console.log("Se ha guardado: " + testStored);
 			}
 		}
 	});
-    console.log(decodedMessage);
+    //console.log(decodedMessage);
 });
 
 consumer.on('error', function(err){
